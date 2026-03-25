@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MenuPage from "./pages/MenuPage";
+import AdminMenuPage from "./pages/AdminMenuPage";
 
 // ── Route definitions ────────────────────────────────────────────────────────
 // เพิ่ม Route ใหม่ได้โดย import Page แล้วเพิ่ม <Route> ด้านล่าง
@@ -10,6 +11,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<MenuPage />} />
+        <Route path="/admin" element={<AdminMenuPage />} />
       </Routes>
     </Router>
   );
