@@ -8,7 +8,8 @@ import {
   X,
   GripHorizontal,
   Pencil,
-  Trash2
+  Trash2,
+  Undo2
 } from "lucide-react";
 
 export const ClocheIcon = (props) => <ConciergeBell size={22} strokeWidth={1.8} {...props} />;
@@ -21,3 +22,4 @@ export const XIcon = (props) => <X size={18} strokeWidth={1.8} {...props} />;
 export const DragIcon = (props) => <GripHorizontal size={18} strokeWidth={1.8} {...props} />;
 export const EditIcon = (props) => <Pencil size={14} strokeWidth={1.8} {...props} />;
 export const TrashIcon = (props) => <Trash2 size={14} strokeWidth={1.8} {...props} />;
+export const UndoIcon = (props) => <Undo2 size={18} strokeWidth={2.5} {...props} />;
