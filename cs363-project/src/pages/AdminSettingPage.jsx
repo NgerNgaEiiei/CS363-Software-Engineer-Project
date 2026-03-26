@@ -101,10 +101,10 @@ export default function AdminSettingPage() {
 
           {/* Tab Navigation */}
           <div className="flex justify-center border-b border-gray-200 py-3 mb-6">
-            <div className="flex w-full items-center">
+            <div className="flex w-full max-w-[400px] items-center">
               <button
                 onClick={() => navigate('/admin/setting')}
-                className="flex-1 py-2 rounded-xl border-2 border-[#58B9B1] bg-transparent text-[#2D505D] font-black text-base cursor-pointer"
+                className="flex-1 py-2 rounded-xl border-2 border-[#2D505D] bg-transparent text-[#2D505D] font-black text-base cursor-pointer"
               >
                 ตั้งค่าระบบ
               </button>
