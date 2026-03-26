@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import TabBar from "../components/TabBar";
 import SearchBar from "../components/SearchBar";
 import AdminMenuCard from "../components/AdminMenuCard";
+import AddMenuModal from "../components/AddMenuModal";
 import { PlusIcon } from "../components/icons";
 
 export default function AdminMenuPage() {
@@ -14,7 +15,6 @@ export default function AdminMenuPage() {
   const [draggingIndex, setDragging]  = useState(null);
   const [overIndex, setOver]          = useState(null);
   const [showModal, setShowModal]     = useState(false);
-  const [newMenu, setNewMenu]         = useState({ name: "", price: "" });
 
   // ── Drag-and-drop ─────────────────────────────────────────────────────────
   const handleDragStart = useCallback((i) => setDragging(i), []);
@@ -43,19 +43,17 @@ export default function AdminMenuPage() {
     []
   );
 
-  const handleAddMenu = () => {
-    if (!newMenu.name || !newMenu.price) return;
+  const handleAddMenu = (newMenuData) => {
     setMenus((prev) => [
       ...prev,
       {
         id: Date.now(),
-        name: newMenu.name,
-        price: parseInt(newMenu.price, 10),
+        name: newMenuData.name,
+        price: parseInt(newMenuData.price, 10),
         category: "เมนูทั้งหมด",
         img: `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop&sig=${Date.now()}`,
       },
     ]);
-    setNewMenu({ name: "", price: "" });
     setShowModal(false);
   };
 
@@ -135,64 +133,11 @@ export default function AdminMenuPage() {
       </div>
 
       {/* ── Add-menu Modal ─────────────────────────────────────── */}
-      {showModal && (
-        <div
-          className="fixed inset-0 bg-black/45 backdrop-blur-sm z-50
-                     flex items-center justify-center p-5"
-          onClick={() => setShowModal(false)}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{ animation: "slideUp 0.25s ease" }}
-            className="bg-white rounded-3xl p-7 w-full max-w-sm
-                       shadow-[0_20px_60px_rgba(0,0,0,0.2)]"
-          >
-            <h2 className="text-lg font-extrabold text-gray-900 mb-5">เพิ่มเมนูใหม่</h2>
-
-            <div className="flex flex-col gap-3.5">
-              {[
-                { label: "ชื่อเมนู", key: "name", placeholder: "เช่น สเต็กไก่",  type: "text"   },
-                { label: "ราคา (฿)", key: "price", placeholder: "เช่น 199",      type: "number" },
-              ].map(({ label, key, placeholder, type }) => (
-                <div key={key}>
-                  <label className="block text-[13px] font-semibold text-gray-500 mb-1.5">
-                    {label}
-                  </label>
-                  <input
-                    type={type}
-                    value={newMenu[key]}
-                    onChange={(e) =>
-                      setNewMenu((prev) => ({ ...prev, [key]: e.target.value }))
-                    }
-                    placeholder={placeholder}
-                    className="w-full px-3.5 py-2.5 rounded-xl border-2 border-black/10
-                               focus:border-teal-400 outline-none text-[15px] text-gray-900
-                               bg-white transition-all"
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className="flex gap-2.5 mt-6">
-              <button
-                onClick={() => setShowModal(false)}
-                className="flex-1 py-3 rounded-xl border-2 border-black/10 bg-white
-                           text-[15px] font-semibold text-gray-500
-                           hover:border-gray-300 cursor-pointer transition-colors"
-              >
-                ยกเลิก
-              </button>
-              <button
-                onClick={handleAddMenu}
-                className="flex-1 py-3 rounded-xl border-none bg-teal-400 hover:bg-teal-500
-                           text-[15px] font-extrabold text-white cursor-pointer transition-colors"
-              >
-                เพิ่มเมนู
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <AddMenuModal 
+        show={showModal} 
+        onClose={() => setShowModal(false)} 
+        onAdd={handleAddMenu} 
+      />
     </>
   );
 }
