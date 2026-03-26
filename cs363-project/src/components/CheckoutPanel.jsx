@@ -1,6 +1,6 @@
 import { UndoIcon } from "./icons"; // อย่าลืมเพิ่ม UndoIcon ใน icons.jsx นะครับ
 
-export default function CheckoutPanel({ orderedItems, onClose }) {
+export default function CheckoutPanel({ orderedItems, onClose, onCheckout }) {
   // คำนวณราคารวมจาก "รายการที่สั่งไปแล้ว"
   const totalPrice = orderedItems.reduce((sum, item) => sum + item.price * item.qty, 0);
 
@@ -64,8 +64,12 @@ export default function CheckoutPanel({ orderedItems, onClose }) {
           </h2>
           <button
             onClick={() => {
-              alert('ดำเนินการชำระเงินสำเร็จ!');
-              onClose();
+              if (onCheckout) {
+                onCheckout();
+              } else {
+                alert('ดำเนินการชำระเงินสำเร็จ!');
+                onClose();
+              }
             }}
             className="w-full py-4 bg-[#50bab5] hover:bg-[#43a19d] text-white text-xl font-extrabold rounded-2xl shadow-md transition-colors cursor-pointer disabled:opacity-50"
             disabled={orderedItems.length === 0}
