@@ -94,7 +94,7 @@ export default function AdminSettingPage() {
           {/* Header */}
           <header className="flex justify-between items-center mb-8">
             <h1 className="text-2xl font-extrabold leading-tight m-0">Ezy <br /> Order</h1>
-            <button className="border-2 border-[#58B9B1] bg-white px-4 py-2 rounded-xl font-bold cursor-pointer text-[#2D505D] hover:bg-gray-50 transition-colors">
+            <button className="border-2 border-[#58B9B1] bg-white px-4 py-2 rounded-xl font-bold cursor-pointer text-[#2D505D] hover:bg-[#ced4da] transition-colors">
               ดูตัวอย่าง
             </button>
           </header>
@@ -177,7 +177,7 @@ export default function AdminSettingPage() {
               <h2 className="text-lg font-bold m-0 flex items-center gap-2">⚙️ หมวดหมู่</h2>
               <button
                 onClick={() => setShowAddPopup(true)}
-                className="w-[35px] h-[35px] rounded-full border-none bg-white font-extrabold text-xl cursor-pointer shadow-sm text-[#2D505D] hover:bg-gray-50 flex items-center justify-center transition-colors"
+                className="w-[35px] h-[35px] rounded-full border-none bg-white font-extrabold text-xl cursor-pointer shadow-sm text-[#2D505D] hover:bg-[#ced4da] flex items-center justify-center transition-colors"
               >
                 +
               </button>

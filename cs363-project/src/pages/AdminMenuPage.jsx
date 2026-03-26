@@ -72,7 +72,7 @@ export default function AdminMenuPage() {
           {/* Header */}
           <header className="flex justify-between items-center mb-8">
             <h1 className="text-2xl font-extrabold leading-tight m-0 text-[#2D505D]">Ezy <br /> Order</h1>
-            <button className="border-2 border-[#58B9B1] bg-white px-4 py-2 rounded-xl font-bold cursor-pointer text-[#2D505D] hover:bg-gray-50 transition-colors">
+            <button className="border-2 border-[#58B9B1] bg-white px-4 py-2 rounded-xl font-bold cursor-pointer text-[#2D505D] hover:bg-[#ced4da] transition-colors">
               ดูตัวอย่าง
             </button>
           </header>

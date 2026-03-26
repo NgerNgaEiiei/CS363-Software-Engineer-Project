@@ -67,7 +67,7 @@ export default function AdminEditMenuPage() {
       <div className="p-6">
         <button 
           onClick={() => isSelectionMode ? setIsSelectionMode(false) : window.history.back()}
-          className="flex items-center gap-2 px-4 py-2 bg-white border border-[#58B9B1] text-[#2D505D] rounded-xl font-bold shadow-sm active:scale-95 transition-all cursor-pointer hover:bg-gray-50"
+          className="flex items-center gap-2 px-4 py-2 bg-white border border-[#58B9B1] text-[#2D505D] rounded-xl font-bold shadow-sm active:scale-95 transition-all cursor-pointer hover:bg-[#ced4da]"
         >
           <span className="text-xl leading-none">↩</span> ย้อนกลับ
         </button>

@@ -15,7 +15,7 @@ export default function CheckoutPanel({ orderedItems, onClose, onCheckout }) {
         <div className="flex items-center justify-between px-6 pt-8 pb-4 bg-[#f4f5f7]">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-[#005c6a] rounded-xl text-[#005c6a] font-bold hover:bg-gray-50 transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-[#005c6a] rounded-xl text-[#005c6a] font-bold hover:bg-[#ced4da] transition-colors cursor-pointer"
           >
             <UndoIcon />
             <span>ย้อนกลับ</span>

@@ -94,7 +94,7 @@ export default function CategoryAccordionCard({
           {cat.selectedOption === 'showSpecific' && (
             <button
               onClick={() => navigate(`/admin-edit-menu/${cat.id}`)}
-              className="py-3 mt-1 rounded-[15px] border-[1.5px] border-[#2D505D] bg-white font-bold text-[#2D505D] cursor-pointer hover:bg-gray-50 transition-colors text-[13px]"
+              className="py-3 mt-1 rounded-[15px] border-[1.5px] border-[#2D505D] bg-white font-bold text-[#2D505D] cursor-pointer hover:bg-[#ced4da] transition-colors text-[13px]"
             >
               แก้ไขเมนูในหมวดหมู่
             </button>
