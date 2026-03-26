@@ -6,6 +6,7 @@ import SearchBar from "../components/SearchBar";
 import MenuCard from "../components/MenuCard";
 import CartPanel from "../components/CartPanel";
 import CheckoutPanel from "../components/CheckoutPanel";
+import Detail from "./Detail";
 
 export default function MenuPage() {
   const [activeTab, setActiveTab] = useState("เมนูขายดี");
@@ -15,14 +16,17 @@ export default function MenuPage() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   // ── Cart helpers ──────────────────────────────────────────────────────────
+  // item may have qty > 1 when coming from Detail modal
   const addToCart = (item) =>
     setCart((prev) => {
+      const incomingQty = item.qty ?? 1;
       const existing = prev.find((c) => c.id === item.id);
       return existing
-        ? prev.map((c) => (c.id === item.id ? { ...c, qty: c.qty + 1 } : c))
-        : [...prev, { ...item, qty: 1 }];
+        ? prev.map((c) => (c.id === item.id ? { ...c, qty: c.qty + incomingQty } : c))
+        : [...prev, { ...item, qty: incomingQty }];
     });
 
   const removeFromCart = (id) =>
@@ -100,7 +104,7 @@ export default function MenuPage() {
             </p>
           ) : (
             filteredItems.map((item) => (
-              <MenuCard key={item.id} item={item} onAdd={addToCart} />
+              <MenuCard key={item.id} item={item} onAdd={addToCart} onDetail={setSelectedItem} />
             ))
           )}
         </div>
@@ -136,6 +140,14 @@ export default function MenuPage() {
           <CheckoutPanel
             orderedItems={orderedItems}
             onClose={() => setShowCheckout(false)}
+          />
+        )}
+        {/* Detail modal */}
+        {selectedItem && (
+          <Detail
+            item={selectedItem}
+            onClose={() => setSelectedItem(null)}
+            onAddToCart={(item) => { addToCart(item); setSelectedItem(null); }}
           />
         )}
       </div>

@@ -1,9 +1,12 @@
 import { PlusIcon } from "./icons";
 
-export default function MenuCard({ item, onAdd }) {
+export default function MenuCard({ item, onAdd, onDetail }) {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:-translate-y-1
-                    hover:shadow-xl transition-all duration-200 cursor-pointer">
+    <div
+      className="bg-white rounded-2xl overflow-hidden shadow-md hover:-translate-y-1
+                  hover:shadow-xl transition-all duration-200 cursor-pointer"
+      onClick={() => onDetail && onDetail(item)}
+    >
       <img
         src={item.img}
         alt={item.name}
@@ -15,7 +18,7 @@ export default function MenuCard({ item, onAdd }) {
           <span className="text-[15px] font-bold text-gray-900">฿ {item.price}</span>
           {onAdd && (
             <button
-              onClick={() => onAdd(item)}
+              onClick={(e) => { e.stopPropagation(); onAdd(item); }}
               className="w-8 h-8 flex items-center justify-center rounded-xl bg-teal-400
                          text-white border-none cursor-pointer hover:bg-teal-500
                          active:scale-95 transition-all"
