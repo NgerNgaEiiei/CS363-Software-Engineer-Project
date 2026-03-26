@@ -1,9 +1,9 @@
-export default function IconButton({ onClick, children }) {
+export default function IconButton({ onClick, children, className = "" }) {
   return (
     <button
       onClick={onClick}
-      className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-teal-400
-                 text-gray-800 bg-transparent hover:bg-teal-100 transition-colors cursor-pointer"
+      className={`w-10 h-10 md:w-11 md:h-11 flex items-center justify-center rounded-xl border border-[#005c6a]
+                 text-[#005c6a] bg-white hover:bg-teal-50 transition-colors cursor-pointer shadow-sm ${className}`}
     >
       {children}
     </button>

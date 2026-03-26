@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MenuPage from "./pages/MenuPage";
 import AdminMenuPage from "./pages/AdminMenuPage";
+import MenuPreview from "./pages/MenuPreview";
+import AddDetail from "./pages/AddDetail";
 import AdminSettingPage from "./pages/AdminSettingPage";
 import AdminEditMenuPage from "./pages/AdminEditMenuPage";
 
@@ -14,6 +16,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<MenuPage />} />
         <Route path="/admin" element={<AdminMenuPage />} />
+        <Route path="/preview" element={<MenuPreview />} />
+        <Route path="/add-detail" element={<AddDetail />} />
         <Route path="/admin/setting" element={<AdminSettingPage />} />
         <Route path="/admin-edit-menu/:categoryId" element={<AdminEditMenuPage />} />
       </Routes>

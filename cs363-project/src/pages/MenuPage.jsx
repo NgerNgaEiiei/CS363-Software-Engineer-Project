@@ -5,13 +5,12 @@ import TabBar from "../components/TabBar";
 import SearchBar from "../components/SearchBar";
 import MenuCard from "../components/MenuCard";
 import CartPanel from "../components/CartPanel";
-import { CartIcon } from "../components/icons";
 
 export default function MenuPage() {
-  const [activeTab, setActiveTab]   = useState("เมนูขายดี");
-  const [cart, setCart]             = useState([]);
-  const [showCart, setShowCart]     = useState(false);
-  const [search, setSearch]         = useState("");
+  const [activeTab, setActiveTab] = useState("เมนูขายดี");
+  const [cart, setCart] = useState([]);
+  const [showCart, setShowCart] = useState(false);
+  const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
 
   // ── Cart helpers ──────────────────────────────────────────────────────────
@@ -32,12 +31,12 @@ export default function MenuPage() {
     alert("สั่งอาหารสำเร็จ!");
   };
 
-  const totalQty   = cart.reduce((sum, c) => sum + c.qty, 0);
+  const totalQty = cart.reduce((sum, c) => sum + c.qty, 0);
   const totalPrice = cart.reduce((sum, c) => sum + c.price * c.qty, 0);
 
   // ── Filter ────────────────────────────────────────────────────────────────
   const filteredItems = MENU_ITEMS.filter((item) => {
-    const matchTab    = activeTab === "เมนูทั้งหมด" || item.category === activeTab;
+    const matchTab = activeTab === "เมนูทั้งหมด" || item.category === activeTab;
     const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
     return matchTab && matchSearch;
   });
@@ -81,14 +80,13 @@ export default function MenuPage() {
         {/* Cart FAB */}
         <button
           onClick={() => setShowCart(true)}
-          className="fixed bottom-7 right-7 w-16 h-16 flex items-center justify-center
-                     bg-[#d4c4a8] border-[3px] border-teal-400 rounded-[20px] text-gray-900
-                     shadow-xl hover:scale-105 active:scale-95 transition-transform z-40 cursor-pointer"
+          className="fixed bottom-7 right-7 w-20 h-20 flex items-center justify-center
+                     hover:scale-105 active:scale-95 transition-transform z-40 cursor-pointer bg-transparent border-none outline-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
         >
-          <CartIcon />
+          <img src="/cart-button.png" alt="Cart Button" className="w-full h-full object-contain" />
           {totalQty > 0 && (
-            <span className="absolute top-2 right-2 w-5 h-5 flex items-center justify-center
-                             bg-red-500 text-white text-[11px] font-extrabold rounded-full">
+            <span className="absolute top-1 right-2 w-6 h-6 flex items-center justify-center
+                             bg-red-500 text-white text-xs font-extrabold rounded-full border-2 border-white shadow-sm">
               {totalQty}
             </span>
           )}
