@@ -59,6 +59,12 @@ export default function MenuPage() {
     alert("สั่งอาหารสำเร็จ! รายการถูกส่งไปยังครัวแล้ว");
   };
 
+  const handleCheckout = () => {
+    setOrderedItems([]);
+    setShowCheckout(false);
+    alert("ดำเนินการชำระเงินสำเร็จ!");
+  };
+
   const totalQty = cart.reduce((sum, c) => sum + c.qty, 0);
   const totalPrice = cart.reduce((sum, c) => sum + c.price * c.qty, 0);
 
@@ -140,6 +146,7 @@ export default function MenuPage() {
           <CheckoutPanel
             orderedItems={orderedItems}
             onClose={() => setShowCheckout(false)}
+            onCheckout={handleCheckout}
           />
         )}
         {/* Detail modal */}
