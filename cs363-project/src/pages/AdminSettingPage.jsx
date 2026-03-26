@@ -1,12 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function AdminSettingPage() {
+  const navigate = useNavigate();
   // ─── States (รักษาข้อมูลเดิมครบถ้วน) ──────────────────────────────────────────
   const [shopName, setShopName] = useState(localStorage.getItem('shopName') || '');
   const [bgColor, setBgColor] = useState('#DCC3A1'); // สีพื้นหลังเดิมจากโค้ดชุดแรก
   const [btnColor, setBtnColor] = useState('#58B9B1');
   const [activeAccordionIndex, setActiveAccordionIndex] = useState(0); 
   const [showAddPopup, setShowAddPopup] = useState(false);
+
+  const [draggingIndex, setDraggingIndex] = useState(null);
+  const [overIndex, setOverIndex] = useState(null);
 
   const [newCatTH, setNewCatTH] = useState('');
   const [newCatEN, setNewCatEN] = useState('');
@@ -50,6 +55,29 @@ export default function AdminSettingPage() {
     setNewCatOption('showSpecific');
     setShowAddPopup(false);
   };
+
+  // ─── Drag-and-drop Logic (นำมาจาก AdminMenu) ──────────────────────────────
+  const handleDragStart = useCallback((i) => setDraggingIndex(i), []);
+  const handleDragOver  = useCallback((e, i) => {
+    e.preventDefault();
+    setOverIndex(i);
+  }, []);
+  const handleDragEnd   = useCallback(() => { setDraggingIndex(null); setOverIndex(null); }, []);
+
+  const handleDrop = useCallback(
+    (dropIndex) => {
+      if (draggingIndex === null || draggingIndex === dropIndex) return;
+      setCategories((prev) => {
+        const next = [...prev];
+        const [moved] = next.splice(draggingIndex, 1);
+        next.splice(dropIndex, 0, moved);
+        return next;
+      });
+      setDraggingIndex(null);
+      setOverIndex(null);
+    },
+    [draggingIndex]
+  );
 
   // ─── Styles Object (ปรับให้เต็มจอและ Responsive) ──────────────────────────
   const styles = {
@@ -105,9 +133,30 @@ export default function AdminSettingPage() {
           </header>
 
           {/* Tab Navigation */}
-          <div style={{ display: "flex", gap: "10px", marginBottom: "30px" }}>
-            <button className="active-tab" style={{ background: "none", border: "none", padding: "8px 15px", cursor: "pointer", color: "#2D505D" }}>ตั้งค่าระบบ</button>
-            <button style={{ background: "none", border: "none", padding: "8px 15px", cursor: "pointer", opacity: 0.6, color: "#2D505D" }}>จัดการเมนู</button>
+          <div style={{ display: 'flex', padding: '12px 20px', borderBottom: '1px solid #F0F0F0',alignItems: 'center',justifyContent: 'center' }}>
+          <div style={{ display: 'flex', width: '100%', maxWidth: '400px', alignItems: 'center' }}>
+            
+            {/* Tab: ตั้งค่าระบบ (Active) */}
+            <button 
+              onClick={() => navigate('/admin/setting')}
+              style={{ flex: 1, padding: '8px 0', borderRadius: '12px', border: '2px solid #58B9B1', backgroundColor: 'transparent', color: '#2D505D', fontWeight: '900', fontSize: '16px',cursor: 'pointer'
+              }}
+            >
+              ตั้งค่าระบบ
+            </button>
+
+            {/* เส้นคั่นกลางแนวตั้ง */}
+            <div style={{ width: '1px', height: '20px', backgroundColor: '#E0E0E0', margin: '0 15px' }} />
+
+            {/* Tab: จัดการเมนู (Inactive) */}
+            <button 
+              onClick={() => navigate('/admin')}
+              style={{ flex: 1, padding: '8px 0', border: 'none', backgroundColor: 'transparent', color: '#2D505D', fontWeight: 'bold', fontSize: '16px',cursor: 'pointer'
+              }}
+            >
+              จัดการเมนู
+            </button>
+          </div>
           </div>
 
           {/* Basic Settings (ข้อมูลเดิมครบ) */}
@@ -158,13 +207,25 @@ export default function AdminSettingPage() {
 
             {categories.map((cat, index) => {
               const isActive = activeAccordionIndex === index;
+              const isDragging = draggingIndex === index;
+              const isOver = overIndex === index && draggingIndex !== index;
+
               return (
-                <div key={cat.id} style={styles.card}>
+                <div 
+                  key={cat.id} 
+                  draggable
+                  onDragStart={() => handleDragStart(index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDragEnd={handleDragEnd}
+                  onDrop={() => handleDrop(index)}
+                  className={`${isDragging ? 'dragging' : ''} ${isOver ? 'drag-over' : ''}`}
+                  style={styles.card}
+                >
                   <div 
                     onClick={() => toggleAccordion(index)}
                     style={{ padding: "15px 20px", display: "flex", justifyContent: "space-between", cursor: "pointer", fontWeight: "bold" }}
                   >
-                    <span>✣ {cat.th}</span>
+                    <span>{cat.th}</span>
                     <span style={{ fontSize: "12px" }}>{isActive ? '▲' : '▼'}</span>
                   </div>
 
@@ -202,12 +263,15 @@ export default function AdminSettingPage() {
                         </div>
                         <div style={{ display: "flex", gap: "10px", fontSize: "12px", cursor: "pointer" }} onClick={() => handleRadioChange(cat.id, 'showAll')}>
                           <div className={`radio-circle ${cat.selectedOption === 'showAll' ? 'radio-checked' : ''}`} style={styles.radioCircle} />
-                          <span>แสดงทุกเมนู (หลังเลือกจะแก้ไขเมนูในหมวดหมู่ไม่ได้)</span>
+                          <span>แสดงทุกเมนู(หลังเลือกจะแก้ไขเมนูในหมวดหมู่ไม่ได้)</span>
                         </div>
                       </div>
 
                       {cat.selectedOption === 'showSpecific' && (
-                        <button style={{ width: "100%", padding: "12px", borderRadius: "15px", border: "1.5px solid #2D505D", background: "white", fontWeight: "bold", color: "#2D505D", cursor: "pointer", fontSize: "13px" }}>
+                        <button 
+                          onClick={() => navigate(`/admin-edit-menu/${cat.id}`)} // ส่ง ID ไปทาง URL
+                          style={{ padding: "12px", borderRadius: "15px", border: "1.5px solid #2D505D", background: "white", fontWeight: "bold", color: "#2D505D" }}
+                        >
                           แก้ไขเมนูในหมวดหมู่
                         </button>
                       )}
@@ -259,7 +323,7 @@ export default function AdminSettingPage() {
                 </div>
                 <div style={{ display: "flex", gap: "10px", fontSize: "12px", cursor: "pointer" }} onClick={() => setNewCatOption('showAll')}>
                   <div className={`radio-circle ${newCatOption === 'showAll' ? 'radio-checked' : ''}`} style={styles.radioCircle} />
-                  <span>แสดงทุกเมนู (หลังเลือกจะแก้ไขเมนูในหมวดหมู่ไม่ได้)</span>
+                  <span>แสดงทุกเมนู(หลังเลือกจะแก้ไขเมนูในหมวดหมู่ไม่ได้)</span>
                 </div>
               </div>
 
