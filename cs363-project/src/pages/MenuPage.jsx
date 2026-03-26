@@ -5,11 +5,14 @@ import TabBar from "../components/TabBar";
 import SearchBar from "../components/SearchBar";
 import MenuCard from "../components/MenuCard";
 import CartPanel from "../components/CartPanel";
+import CheckoutPanel from "../components/CheckoutPanel";
 
 export default function MenuPage() {
   const [activeTab, setActiveTab] = useState("เมนูขายดี");
   const [cart, setCart] = useState([]);
+  const [orderedItems, setOrderedItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
 
@@ -26,9 +29,30 @@ export default function MenuPage() {
     setCart((prev) => prev.filter((c) => c.id !== id));
 
   const handleOrder = () => {
-    setCart([]);
+    if (cart.length === 0) return;
+
+    // ย้ายของจาก "ตะกร้า" ไปเก็บใน "รายการที่สั่งแล้ว" (แก้บั๊กบวกเลขผิดตรงนี้)
+    setOrderedItems((prev) => {
+      let updatedOrders = [...prev];
+      cart.forEach((cartItem) => {
+        const existingIndex = updatedOrders.findIndex((o) => o.id === cartItem.id);
+        if (existingIndex !== -1) {
+          // ถ้ามีเมนูนี้อยู่แล้ว ให้บวกจำนวนเพิ่ม
+          updatedOrders[existingIndex] = {
+            ...updatedOrders[existingIndex],
+            qty: updatedOrders[existingIndex].qty + cartItem.qty
+          };
+        } else {
+          // ถ้ายังไม่มี ให้เพิ่มเข้าไปใหม่
+          updatedOrders.push({ ...cartItem });
+        }
+      });
+      return updatedOrders;
+    });
+
+    setCart([]); // เคลียร์ตะกร้าให้โล่ง
     setShowCart(false);
-    alert("สั่งอาหารสำเร็จ!");
+    alert("สั่งอาหารสำเร็จ! รายการถูกส่งไปยังครัวแล้ว");
   };
 
   const totalQty = cart.reduce((sum, c) => sum + c.qty, 0);
@@ -51,7 +75,11 @@ export default function MenuPage() {
       `}</style>
 
       <div className="min-h-screen bg-[#d4c4a8]">
-        <Header restaurantName="ชื่อร้าน" tableNumber={1} />
+        <Header
+          restaurantName="ชื่อร้าน"
+          tableNumber={1}
+          onCheckoutClick={() => setShowCheckout(true)}
+        />
 
         <TabBar
           activeTab={activeTab}
@@ -101,6 +129,13 @@ export default function MenuPage() {
             onClose={() => setShowCart(false)}
             onRemove={removeFromCart}
             onOrder={handleOrder}
+          />
+        )}
+        {/* แถบชำระเงิน (เลื่อนออกมาจากขวา เหมือนตะกร้า) */}
+        {showCheckout && (
+          <CheckoutPanel
+            orderedItems={orderedItems}
+            onClose={() => setShowCheckout(false)}
           />
         )}
       </div>

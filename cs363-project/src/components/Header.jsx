@@ -1,7 +1,7 @@
 import { ClocheIcon, BellIcon, GlobeIcon } from "./icons";
 import IconButton from "./IconButton";
 
-export default function Header({ restaurantName = "ชื่อร้าน", tableNumber = 1, showIcons = true }) {
+export default function Header({ restaurantName = "ชื่อร้าน", tableNumber = 1, showIcons = true, onCheckoutClick }) {
   return (
     <div className="flex items-center justify-between px-6 pt-5 pb-4 max-w-7xl mx-auto">
       <div>
@@ -10,7 +10,7 @@ export default function Header({ restaurantName = "ชื่อร้าน", ta
       </div>
       {showIcons && (
         <div className="flex items-center gap-2 md:gap-2.5">
-          <button className="h-10 md:h-11 px-4 md:px-5 flex items-center justify-center rounded-xl border border-[#005c6a] text-[#005c6a] bg-white font-bold hover:bg-teal-50 transition-colors cursor-pointer text-base shadow-sm">
+          <button onClick={onCheckoutClick} className="h-10 md:h-11 px-4 md:px-5 flex items-center justify-center rounded-xl border border-[#005c6a] text-[#005c6a] bg-white font-bold hover:bg-teal-50 transition-colors cursor-pointer text-base shadow-sm">
             ชำระเงิน
           </button>
           <IconButton><BellIcon size={20} /></IconButton>
