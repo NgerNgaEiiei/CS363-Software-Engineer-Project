@@ -80,13 +80,13 @@ export default function AddCategoryModal({ show, onClose, onAdd }) {
         <div className="flex gap-3 mt-2">
           <button
             onClick={handleConfirm}
-            className="flex-1 bg-[#58B9B1] hover:bg-teal-500 text-white border-none py-3 rounded-[15px] font-bold cursor-pointer transition-colors"
+            className="flex-1 bg-[#58B9B1] hover:bg-[#ced4da] text-white border-none py-3 rounded-[15px] font-bold cursor-pointer transition-colors"
           >
             เพิ่ม
           </button>
           <button
             onClick={handleCancel}
-            className="flex-1 bg-white hover:bg-gray-50 border-[1.5px] border-[#2D505D] py-3 rounded-[15px] font-bold text-[#2D505D] cursor-pointer transition-colors"
+            className="flex-1 bg-white hover:bg-[#ced4da] border-[1.5px] border-[#2D505D] py-3 rounded-[15px] font-bold text-[#2D505D] cursor-pointer transition-colors"
           >
             ยกเลิก
           </button>
