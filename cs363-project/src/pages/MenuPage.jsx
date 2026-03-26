@@ -5,7 +5,6 @@ import TabBar from "../components/TabBar";
 import SearchBar from "../components/SearchBar";
 import MenuCard from "../components/MenuCard";
 import CartPanel from "../components/CartPanel";
-import { CartIcon } from "../components/icons";
 
 export default function MenuPage() {
   const [activeTab, setActiveTab] = useState("เมนูขายดี");

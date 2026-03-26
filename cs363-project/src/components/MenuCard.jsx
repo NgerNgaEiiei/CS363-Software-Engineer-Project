@@ -13,14 +13,16 @@ export default function MenuCard({ item, onAdd }) {
         <p className="text-base font-extrabold text-gray-900 mb-2">{item.name}</p>
         <div className="flex items-center justify-between">
           <span className="text-[15px] font-bold text-gray-900">฿ {item.price}</span>
-          <button
-            onClick={() => onAdd(item)}
-            className="w-8 h-8 flex items-center justify-center rounded-xl bg-teal-400
-                       text-white border-none cursor-pointer hover:bg-teal-500
-                       active:scale-95 transition-all"
-          >
-            <PlusIcon />
-          </button>
+          {onAdd && (
+            <button
+              onClick={() => onAdd(item)}
+              className="w-8 h-8 flex items-center justify-center rounded-xl bg-teal-400
+                         text-white border-none cursor-pointer hover:bg-teal-500
+                         active:scale-95 transition-all"
+            >
+              <PlusIcon />
+            </button>
+          )}
         </div>
       </div>
     </div>
